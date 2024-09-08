@@ -1,0 +1,20 @@
+{
+  "name": "ppiaula1",
+  "version": "1.0.0",
+  "description": "Aula 1 - PPI",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caiobaasso/PPIAula1.git"
+  },
+  "author": "Caio Basso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Caiobaasso/PPIAula1/issues"
+  },
+  "homepage": "https://github.com/Caiobaasso/PPIAula1#readme"
+}
