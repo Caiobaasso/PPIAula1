@@ -12,12 +12,11 @@ app.use(express.static('./publico'));
 app.use(express.static('./privado'));
 
 //endpoint http://localhost:3000/login
-app.get('./login', (req,res)=> {
-    res.redirect('/login.html');
+app.get('/login', (req,res)=> {
+    res.redirect('./login.html');
 });
 
-app.post('./login', autenticar);
-
+app.post('/login', autenticar);
 
 //listen = escutar por requisições dos usuários
 app.listen(port,host, () => {

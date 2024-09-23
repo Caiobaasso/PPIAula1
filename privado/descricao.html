@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Detalhes do Evento</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5" id="nomeEvento">Nome do Evento</h1>
+        <p id="descricaoEvento">Descrição do evento.</p>
+        <p><strong>Data:</strong> <span id="dataEvento">DD/MM/YYYY</span></p>
+        <p><strong>Horário:</strong> 20:00</p>
+        <p><strong>Local:</strong> <span id="localEvento">Local do evento</span></p>
+        <p><strong>Preço por ingresso:</strong> R$ <span id="precoEvento">0</span>,00</p>
+
+        <div class="form-group">
+            <label for="quantidadeIngressos">Selecione a quantidade de ingressos:</label>
+            <input type="number" id="quantidadeIngressos" class="form-control" value="1" min="1" max="10">
+        </div>
+
+        <p id="valorTotal">Valor total: R$ 0,00</p>
+
+        <button class="btn btn-primary" onclick="calcularTotal()">Calcular valor total</button>
+    </div>
+
+    <script>
+        // Simulação de dados do evento (pode ser substituído por uma API ou backend)
+        const eventos = {
+            1: {
+                nome: 'Show de Rock Internacional',
+                descricao: 'Venha curtir as maiores bandas de rock em um evento inesquecível!',
+                data: '05/12/2024',
+                local: 'Arena São Paulo',
+                preco: 250
+            },
+            2: {
+                nome: 'Festival de Cinema ao Ar Livre',
+                descricao: 'Aproveite os clássicos do cinema em uma noite especial ao ar livre.',
+                data: '18/01/2025',
+                local: 'Parque Ibirapuera',
+                preco: 50
+            },
+            3: {
+                nome: 'Workshop de Fotografia Profissional',
+                descricao: 'Aprenda técnicas avançadas de fotografia com profissionais renomados.',
+                data: '10/02/2025',
+                local: 'Centro de Convenções Rio de Janeiro',
+                preco: 120
+            },
+            4: {
+                nome: 'Corrida Noturna de 10km',
+                descricao: 'Desafie-se em uma corrida noturna pelos pontos históricos da cidade!',
+                data: '25/03/2025',
+                local: 'Centro Histórico de Salvador',
+                preco: 90
+            }
+        };
+
+        // Função para carregar detalhes do evento
+        function carregarDetalhes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventoId = urlParams.get('id');
+            const evento = eventos[eventoId];
+
+            if (evento) {
+                document.getElementById('nomeEvento').innerText = evento.nome;
+                document.getElementById('descricaoEvento').innerText = evento.descricao;
+                document.getElementById('dataEvento').innerText = evento.data;
+                document.getElementById('localEvento').innerText = evento.local;
+                document.getElementById('precoEvento').innerText = evento.preco;
+                calcularTotal(); // Atualiza o valor total quando o evento carrega
+            }
+        }
+
+        // Função para calcular o valor total dos ingressos
+        function calcularTotal() {
+            const precoIngresso = parseFloat(document.getElementById('precoEvento').innerText);
+            const quantidade = parseInt(document.getElementById('quantidadeIngressos').value);
+            const valorTotal = precoIngresso * quantidade;
+
+            document.getElementById('valorTotal').innerText = 'Valor total: R$ ' + valorTotal + ',00';
+        }
+
+        // Carregar detalhes do evento ao carregar a página
+        window.onload = carregarDetalhes;
+    </script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
