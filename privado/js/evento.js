@@ -1,8 +1,10 @@
-
+console.log("evento.js carregado com sucesso.");
 const formCadastroEvento = document.getElementById('formCadastroEvento');
 formCadastroEvento.onsubmit = validarCampos;
 const enderecoAPI = 'http://localhost:3001/eventos';
 buscarTodosEventos();
+
+var motivoAcao = "CADASTRAR";
 
 
 function gravaEvento(){
@@ -36,9 +38,78 @@ function gravaEvento(){
 
 }
 
-function excluirEvento(){}
+function selecionarEvento(cod,nome,descricao,data,local,preco,imagem,motivo){
 
-function atualizarEvento(){}
+    document.getElementById('codEvento').value = cod;
+    document.getElementById('nomeEvento').value = nome;
+    document.getElementById('descricaoEvento').value = descricao;
+    document.getElementById('dataEvento').value = data;
+    document.getElementById('localEvento').value = local;
+    document.getElementById('precoEvento').value = preco;
+    document.getElementById('enderecoImg').value = imagem;
+
+    motivoAcao = motivo;
+    const botaoConfirmacao = document.getElementById('botaoConfirmacao');
+
+    if (motivoAcao == "EDITAR"){
+        botaoConfirmacao.innerText = 'EDITAR';
+    }
+    else if (motivoAcao == "EXCLUIR"){
+        botaoConfirmacao.innerText = 'EXCLUIR';
+    }
+
+}
+function excluirEvento(){
+    fetch(enderecoAPI, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({cod: document.getElementById('codEvento').value})
+    }).then((res) =>{
+        return res.json();
+    }).then((resAPI) => {
+        if (resAPI.status == true){
+            exibirMensagem(resAPI.mensagem, 'green');
+        }
+        else {
+            exibirMensagem(resAPI.mensagem, 'red');
+        }
+    }).catch((erro) => {
+        exibirMensagem('Erro: ' + erro, 'yellow');
+    });
+}
+
+function atualizarEvento(){
+    const objetoEvento = {
+        cod: document.getElementById('codEvento').value,
+        nome: document.getElementById('nomeEvento').value,
+        descricao: document.getElementById('descricaoEvento').value,
+        data: document.getElementById('dataEvento').value,
+        local: document.getElementById('localEvento').value,
+        preco: document.getElementById('precoEvento').value,
+        imagem: document.getElementById('enderecoImg').value
+    }
+
+    fetch(enderecoAPI, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(objetoEvento)
+    }).then((res) =>{
+        return res.json();
+    }).then((resAPI) => {
+        if (resAPI.status == true){
+            exibirMensagem(resAPI.mensagem, 'green');
+        }
+        else {
+            exibirMensagem(resAPI.mensagem, 'red');
+        }
+    }).catch((erro) => {
+        exibirMensagem('Erro: ' + erro, 'yellow');
+    });
+}
 
 function buscarTodosEventos(){
     fetch(enderecoAPI, {method: 'GET'})
@@ -71,6 +142,16 @@ function validarCampos(evento){
     evento.preventDefault();
 
     if (cod && nome && descricao && data && local && preco && imagem){
+        if (motivoAcao == "CADASTRAR"){
+            gravaEvento();
+        }
+        else if (motivoAcao == "EDITAR"){
+            atualizaEvento();   
+        }
+        else if (motivoAcao == "EXCLUIR"){
+            excluirEvento();
+            motivoAcao = "CADASTRAR";
+        }
         gravaEvento(); 
         formCadastroEvento.reset();
         buscarTodosEventos();
@@ -82,19 +163,12 @@ function validarCampos(evento){
     }
 }
 
-function exibirMensagem(mensagem, cor = 'white'){
-    const divMensagem = document.getElementById('mensagem');
-    divMensagem.innerHTML = "<p style ='color: " + cor +";'>" + mensagem + "</p>";
-    setTimeout(() => {
-        divMensagem.innerHTML = "";
-    }, 5000);
-}
-
 function exibirEventos(listaEventos){
     if (listaEventos.length > 0){
         const divEventos = document.getElementById('listaEventos');
         const tabela = document.createElement('table');
-        const cabecalho = documento.createElement('thead');
+        tabela.classList.add('table', 'table-dark', 'table-striped');
+        const cabecalho = document.createElement('thead');
         cabecalho.innerHTML = `
             <tr>
                 <th>Código</th>
@@ -118,10 +192,10 @@ function exibirEventos(listaEventos){
                 <td>${evento.data}</td>
                 <td>${evento.local}</td>
                 <td>${evento.preco}</td>
-                <td>${evento.imagem}</td>
+                <td><img src="${evento.imagem}" alt="${evento.nome}" style="width: 100px; height: auto;"></td>
                 <td>
-                    <button >Alterar</button>
-                    <button >Excluir</button>
+                    <button onclick="selecionarEvento('${evento.cod}','${evento.nome}',${evento.descricao}','${evento.data},'${evento.local}','${evento.preco}','${evento.imagem}','EDITAR')">Alterar</button>
+                    <button onclick="selecionarEvento('${evento.cod}','${evento.nome}',${evento.descricao}','${evento.data},'${evento.local}','${evento.preco}','${evento.imagem}','EXCLUIR')">Excluir</button>
                 </td>
 
             `;
@@ -133,8 +207,16 @@ function exibirEventos(listaEventos){
         divEventos.appendChild(tabela);
     }
     else{
-        exibirMensagem('Nenhum evento encontrado');
+        exibirMensagem('Nenhum evento encontrado', 'red');
     }
+}
+
+function exibirMensagem(mensagem, cor = 'white'){
+    const divMensagem = document.getElementById('mensagem');
+    divMensagem.innerHTML = "<p style ='color: " + cor +";'>" + mensagem + "</p>";
+    setTimeout(() => {
+        divMensagem.innerHTML = "";
+    }, 5000);
 }
 
 

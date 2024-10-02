@@ -3,12 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    <meta name="description" content="Portal de eventos">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Listagem de Eventos">
     <link rel="stylesheet" href="css/theme.min.css">
-    <title>Portal de Eventos</title>
+    <title>Listagem de Eventos</title>
 </head>
 
 <body class="bg-black text-white mt-0" data-bs-spy="scroll" data-bs-target="#navScroll">
@@ -17,120 +15,40 @@
     <nav id="navScroll" class="navbar navbar-dark bg-black fixed-top px-vw-5" tabindex="0">
         <div class="container">
             <a class="navbar-brand pe-md-4 fs-4 col-12 col-md-auto text-center" href="index.html">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                    class="bi bi-stack" viewBox="0 0 16 16">
-                    <path d="m14.12 10.163 1.715.858c.22.11.22.424 0 .534L8.267 15.34a.598.598 0 0 1-.534 0L.165 11.555a.299.299 0 0 1 0-.534l1.716-.858 5.317 2.659c.505.252 1.1.252 1.604 0l5.317-2.66zM7.733.063a.598.598 0 0 1 .534 0l7.568 3.784a.3.3 0 0 1 0 .535L8.267 8.165a.598.598 0 0 1-.534 0L.165 4.382a.299.299 0 0 1 0-.535L7.733.063z"/>
-                    <path d="m14.12 6.576 1.715.858c.22.11.22.424 0 .534l-7.568 3.784a.598.598 0 0 1-.534 0L.165 7.968a.299.299 0 0 1 0-.534l1.716-.858 5.317 2.659c.505.252 1.1.252 1.604 0l5.317-2.659z"/>
-                </svg>
-                <span class="ms-md-1 mt-1 fw-bolder me-md-5">Portal de Eventos</span>
+                Portal de Eventos
             </a>
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 list-group list-group-horizontal">
                 <li class="nav-item">
-                    <a class="nav-link fs-5" href="index.html" aria-label="Homepage">
-                        Home
-                    </a>
+                    <a class="nav-link fs-5" href="index.html" aria-label="Homepage">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5" href="content.html" aria-label="Eventos">
-                        Eventos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" href="/cadastro.html" aria-label="Cadastro">
-                        Cadastro
-                    </a>
+                    <a class="nav-link fs-5" href="cadastro.html" aria-label="Cadastro">Cadastrar Evento</a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
-        <div class="w-100 overflow-hidden position-relative bg-black text-white" data-aos="fade">
-            <div class="container py-vh-4 position-relative mt-5 px-vw-5 text-center">
-                <div class="row d-flex align-items-center justify-content-center py-vh-5">
-                    <div class="col-12 col-xl-10">
-                        <span class="h5 text-secondary fw-lighter">Portal de eventos</span>
-                        <h1 class="display-huge mt-3 mb-3 lh-1">Bem-vindo ao Portal de Eventos!</h1>
-                    </div>
-                    <div class="col-12 col-xl-8">
-                        <p class="lead text-secondary">Descubra os eventos mais emocionantes que estão por vir e prepare-se para momentos inesquecíveis!</p>
-                    </div>
-                    <div class="col-12 text-center">
-                        <a href="#eventos" class="btn btn-xl btn-light">Visualizar eventos</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class="container mt-5 pt-5">
+        <h1 class="text-center my-5">Lista de Eventos</h1>
+        
+        <div id="mensagem"></div>
 
         <!-- Listagem de Eventos -->
-        <div class="bg-black py-vh-3" id="containerTabela">
-            <div class="container bg-black px-vw-5 py-vh-3 rounded-5 shadow" id="eventos">
-                <div class="row gx-5" id="listaEventos">
-                    <!-- Os eventos serão carregados aqui dinamicamente -->
-                </div>
-            </div>
+        <div class="table-responsive" id="listaEventos">
+            <!-- Os eventos serão carregados aqui dinamicamente -->
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black border-top border-dark">
-        <!-- Conteúdo do footer -->
+    <footer class="bg-black border-top border-dark text-center py-3 mt-5">
+        <p>Feito por Caio Basso</p>
     </footer>
 
     <!-- Scripts -->
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-        });
-
-        // Script para buscar e exibir eventos
-        const enderecoAPI = 'http://localhost:3001/eventos';
-
-        function buscarTodosEventos() {
-            fetch(enderecoAPI, { method: 'GET' })
-                .then(res => res.json())
-                .then(resAPI => {
-                    if (resAPI.status == true && resAPI.listaEventos) {
-                        exibirEventos(resAPI.listaEventos);
-                    } else {
-                        document.getElementById('listaEventos').innerHTML = `<p class="text-secondary">Nenhum evento encontrado.</p>`;
-                    }
-                })
-                .catch(erro => {
-                    console.error('Erro ao buscar eventos:', erro);
-                    document.getElementById('listaEventos').innerHTML = `<p class="text-danger">Erro ao carregar os eventos. Tente novamente mais tarde.</p>`;
-                });
-        }
-
-        function exibirEventos(listaEventos) {
-            const divEventos = document.getElementById('listaEventos');
-            divEventos.innerHTML = ''; // Limpa o container antes de adicionar os eventos
-
-            listaEventos.forEach(evento => {
-                const eventoCard = `
-                    <div class="col-12 col-md-6 mb-5">
-                        <div class="card bg-transparent" data-aos="zoom-in-up">
-                            <div class="bg-dark shadow rounded-5 p-0">
-                                <img src="${evento.imagem}" width="582" height="327" alt="${evento.nome}" class="img-fluid rounded-5 no-bottom-radius" loading="lazy">
-                                <div class="p-5">
-                                    <h2 class="fw-lighter">${evento.nome}</h2>
-                                    <p class="pb-4 text-secondary">Local: ${evento.local}</br>Data: ${evento.data}</br>Preço: R$ ${evento.preco}</p>
-                                    <a href="#" class="link-fancy link-fancy-light">Mais Informações</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                divEventos.insertAdjacentHTML('beforeend', eventoCard);
-            });
-        }
-
-        // Chama a função para buscar os eventos ao carregar a página
-        document.addEventListener('DOMContentLoaded', buscarTodosEventos);
-    </script>
+    <script src="js/evento.js"></script> <!-- Script que realiza a comunicação com a API -->
 </body>
 
 </html>
+
