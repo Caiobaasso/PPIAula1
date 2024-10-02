@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="description" content="Formulário para Cadastro de Eventos">
+    <link rel="stylesheet" href="css/theme.min.css">
+    <title>Cadastro de Eventos</title>
+</head>
+
+<body class="bg-black text-white">
+
+        <div class="container">
+            <div class="row d-flex justify-content-center py-vh-5 pb-0">
+                <div class="col-12 col-lg-8">
+                    <h1 class="display-4 fw-bold">Cadastro de Evento</h1>
+                    <p class="lead">Preencha os detalhes do evento abaixo para cadastrá-lo.</p>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <form id="formCadastroEvento" method="post" action="#">
+                        <div class="mb-3">
+                            <label for="codEvento" class="form-label">Codigo do Evento</label>
+                            <input type="text" class="form-control" id="codEvento" placeholder="Digite o codigo do evento">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nomeEvento" class="form-label">Nome do Evento</label>
+                            <input type="text" class="form-control" id="nomeEvento" placeholder="Digite o nome do evento">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="descricaoEvento" class="form-label">Descrição do Evento</label>
+                            <textarea class="form-control" id="descricaoEvento" rows="4" placeholder="Descreva o evento"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="dataEvento" class="form-label">Data do Evento</label>
+                            <input type="text" class="form-control" id="dataEvento">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="localEvento" class="form-label">Local do Evento</label>
+                            <input type="text" class="form-control" id="localEvento" placeholder="Digite o local do evento">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="precoEvento" class="form-label">Preço por Ingresso (R$)</label>
+                            <input type="number" class="form-control" id="precoEvento" placeholder="Digite o preço do evento" min="0" >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="enderecoImg" class="form-label">Endereço da Imagem</label>
+                            <input type="text" class="form-control" id="enderecoImg" placeholder="Digite o endereço da Imagem">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Cadastrar Evento</button>
+                    </form>
+                    <div id="mensagem"></div>
+                </div>
+            </div>
+        </div>
+
+</body>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="./js/evento.js"></script>
+</html>
